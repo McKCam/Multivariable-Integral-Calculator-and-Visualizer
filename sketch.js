@@ -6,13 +6,14 @@ var b = 2, a = 0;
 var d = 3, c = 2;
 var deltaVal = 0.1;
 var deltaX = deltaVal, deltaY = deltaVal;
-var defaultFunc = "2x + y";
 
 // User interface globals
 var zoomScale = 40;
 
 let checkBox;
 
+var defaultFunc = "2x + y";
+let mathFunction;
 let inputBox;
 let outputBox;
 
@@ -28,7 +29,7 @@ let zoomSlider,
 
 function multivarFunc(x, y)
 {
-  return -x;
+  return -(2*x + y); 
   //return -( (2 * x) + y);
   //return -(x*x + y*y - 1);
 }
@@ -45,6 +46,7 @@ function setup() {
 
   // Input box
   inputBox = createInput("f(x, y) = " + defaultFunc);
+  mathFunction = new MathFunc(defaultFunc, a, b, c, d);
   inputBox.position(0, height + 60);
 
   upperXBox = createInput(b);
@@ -213,6 +215,17 @@ function axes()
   
 }
 
+function getVolume(mathFunction) {
+  var volume = 0;
+  for (var x = a; x < b; x += deltaX) {
+    for (var y = c; y < d; y += deltaY) {
+      volume += multivarFunc(x, y) * deltaX * deltaY;
+      console.log( -volume);
+    }
+  }
+  return volume;
+}
+
 function updateIntegral() {
   var aNew = parseFloat(lowerXBox.value(), 10);
   var bNew = parseFloat(upperXBox.value(), 10);
@@ -227,6 +240,13 @@ function updateIntegral() {
     c = cNew;
     d = dNew;
   }
+
+  mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
+  //for (int i = 0)
+  //outputBox.value(mathFunction.evaluateAt());
+
+  console.log(inputBox.value());
+  //console.log(getVolume(mathFunction));
 
   // Checks if the rules are being followed
   // if (lowerXBox.value(isNaN))

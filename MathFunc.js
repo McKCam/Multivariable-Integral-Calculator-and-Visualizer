@@ -38,7 +38,7 @@ class MathFunc {
 		const parseFunc = parser.evaluate(this.input);
 		const str = parseFunc.toString();
 		parser.clear();
-		console.log('f(x. y) = ' + inputMathFunc)
+		console.log('f(x. y) = ' + this.input);
 		return str;
 	}
 
