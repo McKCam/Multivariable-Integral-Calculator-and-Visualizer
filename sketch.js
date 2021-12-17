@@ -16,6 +16,11 @@ let checkBox;
 let inputBox;
 let outputBox;
 
+let lowerXBox;
+let upperXBox;
+let lowerYBox;
+let upperYBox;
+
 let displayButton;
 
 let zoomSlider,
@@ -34,15 +39,32 @@ function setup() {
   checkBox = createCheckbox('Show Function', false);
   checkBox.position(0, height + 5);
   
+  // Zoom functionality
   zoomSlider = createSlider((zoomScale*1.5)/2, zoomScale * 1.5, zoomScale);
   zoomSlider.position(width - (3*width/4), height + 20);
 
+  // Input box
   inputBox = createInput("f(x, y) = " + defaultFunc);
-  inputBox.position(0, height + 50);
+  inputBox.position(0, height + 60);
 
+  upperXBox = createInput(b);
+  upperXBox.position(width/2, height + 10);
+  upperXBox.size(50);
+  lowerXBox = createInput(a);
+  lowerXBox.position(width/2, height + 30);
+  lowerXBox.size(50);
+  
+  upperYBox = createInput(d);
+  upperYBox.position(width/2 + 100, height + 10);
+  upperYBox.size(50);
+  lowerYBox = createInput(c);
+  lowerYBox.position(width/2 + 100, height + 30);
+  lowerYBox.size(50);
+
+  // Button
   displayButton = createButton("Display");
   displayButton.position(width - 60, height + 50);
-  displayButton.mousePressed(updateIntegral());
+  displayButton.mousePressed(updateIntegral);
   
   graphColSlider = createSlider(0, 255, 255);
   graphColSlider.position(0, height + 20);
@@ -192,6 +214,33 @@ function axes()
 }
 
 function updateIntegral() {
+  var aNew = parseFloat(lowerXBox.value(), 10);
+  var bNew = parseFloat(upperXBox.value(), 10);
+  if (aNew !== NaN && bNew !== NaN && aNew < bNew) {
+    a = aNew;
+    b = bNew;
+  }
+
+  var cNew = parseFloat(lowerYBox.value(), 10);
+  var dNew = parseFloat(upperYBox.value(), 10);
+  if (cNew !== NaN && dNew !== NaN && cNew < dNew) {
+    c = cNew;
+    d = dNew;
+  }
+
+  // Checks if the rules are being followed
+  // if (lowerXBox.value(isNaN))
+  // {
+  //   lowerXBox.value(a);  
+  // }
+  // if (upperXBox.value(isNaN))
+  // {
+  //   upperXBox.value(a);
+  // }
+  // if (aNew > bNew)
+  // {
+  //   lowerLimitBox.value(a); 
+  // }  
 
 }
 
