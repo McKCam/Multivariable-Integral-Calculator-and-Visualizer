@@ -63,6 +63,19 @@ class MathFunc {
   }
 
   /**
+   * Similar to evaluateAt(x, y, mathExpr) but it's for drawing the function. 
+   * @param {*} x The current x-coordinate
+   * @param {*} y The current y-coordinate
+   * @returns The MathFunction's instance input evaluated at a point.
+   */
+  evaluateAtShape(x, y) {
+    const parser = math.parser();
+    parser.evaluate('f(x, y) = ' + this.input);
+    const f = parser.get('f');
+    return f(x, y);
+  }
+
+  /**
 	 * Computes the approximate area under the given curve.
 	 * @param {number} deltaX The change in x for each box length.
    * @param {number} deltaY The change in y for each step width.

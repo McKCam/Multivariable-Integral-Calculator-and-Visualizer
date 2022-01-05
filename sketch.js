@@ -83,7 +83,7 @@ function draw() {
   scale(zoomSlider.value());
   
   if(checkBox.checked()) {
-    //shape();
+    shape();
 
     axes();
   
@@ -161,8 +161,8 @@ function shape()
         fill(graphColSlider.value(), 100, 100, 1);
         //vertex(j, multivarFunc(j, a) - 0.1, -a + 0.1);
         //vertex(j, multivarFunc(j, b) - 0.1, -b);
-        vertex(i, -mathFunction.evaluateAt(i, c, mathFunction.input) - 0.1, -c + 0.1);
-        vertex(i, -mathFunction.evaluateAt(i, d, mathFunction.input) - 0.1, -d + 0.1);
+        vertex(i, -mathFunction.evaluateAtShape(i, c) - 0.1, -c + 0.1);
+        vertex(i, -mathFunction.evaluateAtShape(i, d) - 0.1, -d + 0.1);
         //vertex(j, multivarFunc(i, a) - 0.1, 0);
         
         //vertex(j, multivarFunc())
@@ -255,7 +255,7 @@ function updateIntegral() {
   mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
   cols();
   integral();
-  shape();
+  //shape();
   console.log(boxArray);
   //for (int i = 0)
   //outputBox.value(mathFunction.evaluateAt());
