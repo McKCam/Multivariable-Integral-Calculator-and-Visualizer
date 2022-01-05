@@ -46,6 +46,7 @@ function setup() {
 
   // Input box
   inputBox = createInput("f(x, y) = " + defaultFunc);
+  //inputBox = createInput(defaultFunc);
   mathFunction = new MathFunc(defaultFunc, a, b, c, d);
   inputBox.position(0, height + 60);
 
@@ -81,14 +82,21 @@ function draw() {
   
   scale(zoomSlider.value());
   
-  if(checkBox.checked())
-  {
-    shape();
+  if(checkBox.checked()) {
+    //shape();
+
+    axes();
+  
+    integral();
+  } else {
+    axes();
+  
+    integral();
   }
   
-  axes();
+  //axes();
   
-  integral();
+  //integral();
     
 }
 
@@ -98,13 +106,13 @@ function integral()
   var volume = 0;
   
   // Integral Computation
-  for (let x = a; x < b; x += deltaX)
-  {
-    for (let y = c; y < d; y += deltaY)
-    {
-      volume += multivarFunc(x, y) * deltaX * deltaY;  
-    }
-  }
+  // for (let x = a; x < b; x += deltaX)
+  // {
+  //   for (let y = c; y < d; y += deltaY)
+  //   {
+  //     volume += multivarFunc(x, y) * deltaX * deltaY;  
+  //   }
+  // }
   //print(-volume);
   
   // Displays the columns
@@ -119,13 +127,16 @@ function cols()
 {
   var volume = 0;
   
+  boxArray = [];
+
+  //console.log(inputBox.value());
   // Column instantiation
   for (var x = a; x < b; x += deltaX)
   {
     for (var y = c; y < d; y += deltaY)
     {
-      boxArray.push( new MyBox(x, y, multivarFunc(x, y), deltaX, deltaY, 255) ); 
-      volume += multivarFunc(x, y) * deltaX * deltaY
+      boxArray.push( new MyBox(x, y, -mathFunction.evaluateAt(x, y, inputBox.value()), deltaX, deltaY, 255) ); 
+      //volume += multivarFunc(x, y) * deltaX * deltaY
     }
   }  
   
@@ -134,7 +145,7 @@ function cols()
   //print(boxArray); 
   print("Double integral of f(x, y) = 2x + y from");
   print("x = " +a+ " to x = " +b+ " and y = " +c+ " to y = " +d);
-  print("V ≈ " + (-volume));
+  //print("V ≈ " + (-volume));
   print("Column count: " + (nx*ny));
 }
 
@@ -150,8 +161,8 @@ function shape()
         fill(graphColSlider.value(), 100, 100, 1);
         //vertex(j, multivarFunc(j, a) - 0.1, -a + 0.1);
         //vertex(j, multivarFunc(j, b) - 0.1, -b);
-        vertex(i, multivarFunc(i, c) - 0.1, -c + 0.1);
-        vertex(i, multivarFunc(i, d) - 0.1, -d + 0.1);
+        vertex(i, -mathFunction.evaluateAt(i, c, mathFunction.input) - 0.1, -c + 0.1);
+        vertex(i, -mathFunction.evaluateAt(i, d, mathFunction.input) - 0.1, -d + 0.1);
         //vertex(j, multivarFunc(i, a) - 0.1, 0);
         
         //vertex(j, multivarFunc())
@@ -242,10 +253,16 @@ function updateIntegral() {
   }
 
   mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
+  cols();
+  integral();
+  shape();
+  console.log(boxArray);
   //for (int i = 0)
   //outputBox.value(mathFunction.evaluateAt());
 
-  console.log(inputBox.value());
+  console.log(mathFunction.input);
+  console.log(mathFunction.toString());
+  console.log(mathFunction.getApproxArea(deltaX, deltaY));
   //console.log(getVolume(mathFunction));
 
   // Checks if the rules are being followed
