@@ -42,12 +42,13 @@ class MathFunc {
    * Finding f(x, y) at a specific point.
    * @param {number} x The x-coordinate.
    * @param {number} y The y-coordinate.
+   * @param {string} mathExpr The given input function.
    * @returns The output from f(x, y) evaluation.
    */
   evaluateAt(x, y, mathExpr) {
     const parser = math.parser();
     //console.log(mathExpr);
-    parser.evaluate(mathExpr);
+    parser.evaluate('f(x, y) = ' + mathExpr);
     const f = parser.get('f');
     //let parser = math.parser();
     //parser.evaluate('f(x, y) = ' + this.input);
@@ -59,19 +60,6 @@ class MathFunc {
     // };
     //console.log(parser.evaluate(f, scope));
     //console.log(f(x, y));
-    return f(x, y);
-  }
-
-  /**
-   * Similar to evaluateAt(x, y, mathExpr) but it's for drawing the function. 
-   * @param {*} x The current x-coordinate
-   * @param {*} y The current y-coordinate
-   * @returns The MathFunction's instance input evaluated at a point.
-   */
-  evaluateAtShape(x, y) {
-    const parser = math.parser();
-    parser.evaluate('f(x, y) = ' + this.input);
-    const f = parser.get('f');
     return f(x, y);
   }
 

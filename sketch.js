@@ -45,9 +45,9 @@ function setup() {
   zoomSlider.position(width - (3*width/4), height + 20);
 
   // Input box
-  inputBox = createInput("f(x, y) = " + defaultFunc);
+  inputBox = createInput(defaultFunc);
   //inputBox = createInput(defaultFunc);
-  mathFunction = new MathFunc(defaultFunc, a, b, c, d);
+  mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
   inputBox.position(0, height + 60);
 
   upperXBox = createInput(b);
@@ -82,7 +82,7 @@ function draw() {
   
   scale(zoomSlider.value());
   
-  if(checkBox.checked()) {
+  if (checkBox.checked()) {
     shape();
 
     axes();
@@ -161,8 +161,15 @@ function shape()
         fill(graphColSlider.value(), 100, 100, 1);
         //vertex(j, multivarFunc(j, a) - 0.1, -a + 0.1);
         //vertex(j, multivarFunc(j, b) - 0.1, -b);
-        vertex(i, -mathFunction.evaluateAtShape(i, c) - 0.1, -c + 0.1);
-        vertex(i, -mathFunction.evaluateAtShape(i, d) - 0.1, -d + 0.1);
+        // Nan issue here: The defaultFunc is 2x + y, but every update will have f(x, y) concat to it
+        //mathFunction.setCurr1(i);
+        //mathFunction.setCurr2(j);
+        vertex(i, -mathFunction.evaluateAt(i, j, mathFunction.input) - 0.1, -j + 0.1);
+        console.log( -mathFunction.evaluateAt(i, j, mathFunction.input) - 0.1);
+        //PREV//vertex(i, -mathFunction.evaluateAtShape(i, j) - 0.1, -j + 0.1);
+        /////console.log(-mathFunction.evaluateAtShape(i, j) - 0.1);
+        //OLD//vertex(i, -mathFunction.evaluateAtShape(i, c) - 0.1, -c + 0.1);
+        //OLD//vertex(i, -mathFunction.evaluateAtShape(i, d) - 0.1, -d + 0.1);
         //vertex(j, multivarFunc(i, a) - 0.1, 0);
         
         //vertex(j, multivarFunc())
@@ -262,7 +269,7 @@ function updateIntegral() {
 
   console.log(mathFunction.input);
   console.log(mathFunction.toString());
-  console.log(mathFunction.getApproxArea(deltaX, deltaY));
+  console.log("Area: " + mathFunction.getApproxArea(deltaX, deltaY));
   //console.log(getVolume(mathFunction));
 
   // Checks if the rules are being followed
