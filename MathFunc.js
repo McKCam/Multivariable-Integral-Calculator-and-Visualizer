@@ -72,7 +72,7 @@ class MathFunc {
 	getApproxArea(deltaX, deltaY) {
     const parser = math.parser();
     
-    parser.evaluate(this.input);
+    parser.evaluate('f(x, y) = ' + this.input);
     
     // Valid way of getting string of function w/ f(x, y) format
     //const node = math.parse(this.input); 
