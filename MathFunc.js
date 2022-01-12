@@ -50,16 +50,6 @@ class MathFunc {
     //console.log(mathExpr);
     parser.evaluate('f(x, y) = ' + mathExpr);
     const f = parser.get('f');
-    //let parser = math.parser();
-    //parser.evaluate('f(x, y) = ' + this.input);
-    //const f = parser.get('f');
-    //const f = math.parse(this.input);
-    // let scope = {
-    //   x : x,
-    //   y : y
-    // };
-    //console.log(parser.evaluate(f, scope));
-    //console.log(f(x, y));
     return f(x, y);
   }
 
@@ -69,7 +59,7 @@ class MathFunc {
    * @param {number} deltaY The change in y for each step width.
 	 * @return {number} The approximate area under the curve. 
 	 */
-	getApproxArea(deltaX, deltaY) {
+	getApproxVol(deltaX, deltaY) {
     const parser = math.parser();
     
     parser.evaluate('f(x, y) = ' + this.input);
@@ -86,16 +76,15 @@ class MathFunc {
     
 		var nx = ceil((this.b - this.a) / deltaX);
     var ny = ceil((this.d - this.c) / deltaY);
-		var area = 0;
+		var vol = 0;
 
     for (var i =  a; i < b; i += deltaX) {
       for (var j = c; j < d; j += deltaY) {
-        area += f(i, j) * deltaX * deltaY;
+        vol += f(i, j) * deltaX * deltaY;
       }
     }
 
-		//console.log(area);
 		parser.clear();
-		return area;
+		return vol;
 	}
 }

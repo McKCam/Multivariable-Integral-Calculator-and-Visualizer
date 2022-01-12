@@ -22,6 +22,8 @@ let upperXBox;
 let lowerYBox;
 let upperYBox;
 
+let answerBox;
+
 let displayButton;
 
 let zoomSlider,
@@ -48,7 +50,7 @@ function setup() {
   inputBox = createInput(defaultFunc);
   //inputBox = createInput(defaultFunc);
   mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
-  inputBox.position(0, height + 60);
+  inputBox.position(30, height + 60);
 
   upperXBox = createInput(b);
   upperXBox.position(width/2, height + 10);
@@ -71,6 +73,11 @@ function setup() {
   
   graphColSlider = createSlider(0, 255, 255);
   graphColSlider.position(0, height + 20);
+
+  // answerBox contains the result
+  answerBox = createInput(mathFunction.getApproxVol(deltaX, deltaY));
+  answerBox.position(30, height + 100);
+  answerBox.attribute('readonly', true);  // Make the input box non-modifiable
   
   cols();
 }
@@ -159,22 +166,7 @@ function shape()
         push();
         colorMode(HSB);
         fill(graphColSlider.value(), 100, 100, 1);
-        //vertex(j, multivarFunc(j, a) - 0.1, -a + 0.1);
-        //vertex(j, multivarFunc(j, b) - 0.1, -b);
-        // Nan issue here: The defaultFunc is 2x + y, but every update will have f(x, y) concat to it
-        //mathFunction.setCurr1(i);
-        //mathFunction.setCurr2(j);
         vertex(i, -mathFunction.evaluateAt(i, j, mathFunction.input) - 0.1, -j + 0.1);
-        console.log( -mathFunction.evaluateAt(i, j, mathFunction.input) - 0.1);
-        //PREV//vertex(i, -mathFunction.evaluateAtShape(i, j) - 0.1, -j + 0.1);
-        /////console.log(-mathFunction.evaluateAtShape(i, j) - 0.1);
-        //OLD//vertex(i, -mathFunction.evaluateAtShape(i, c) - 0.1, -c + 0.1);
-        //OLD//vertex(i, -mathFunction.evaluateAtShape(i, d) - 0.1, -d + 0.1);
-        //vertex(j, multivarFunc(i, a) - 0.1, 0);
-        
-        //vertex(j, multivarFunc())
-        ///vertex(i, multivarFunc(i, d) - 0.1, -d);
-        //line(i, multivarFunc(i,j) - 0.2, -j, i + deltaX, multivarFunc(i + deltaX, j + deltaY) - 0.2, -j + deltaY);
         
         pop();
       }
@@ -247,9 +239,13 @@ function getVolume(mathFunction) {
 function updateIntegral() {
   var aNew = parseFloat(lowerXBox.value(), 10);
   var bNew = parseFloat(upperXBox.value(), 10);
+
   if (aNew !== NaN && bNew !== NaN && aNew < bNew) {
     a = aNew;
     b = bNew;
+  } else {
+    lowerXBox.value(a);
+    upperXBox.value(b);
   }
 
   var cNew = parseFloat(lowerYBox.value(), 10);
@@ -257,34 +253,25 @@ function updateIntegral() {
   if (cNew !== NaN && dNew !== NaN && cNew < dNew) {
     c = cNew;
     d = dNew;
+  } else {
+    lowerYBox.value(c);
+    upperYBox.value(d);
   }
 
   mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
   cols();
   integral();
+  answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
   //shape();
-  console.log(boxArray);
+  //console.log(boxArray);
   //for (int i = 0)
   //outputBox.value(mathFunction.evaluateAt());
 
   console.log(mathFunction.input);
   console.log(mathFunction.toString());
-  console.log("Area: " + mathFunction.getApproxArea(deltaX, deltaY));
+  console.log("Volume: " + mathFunction.getApproxVol(deltaX, deltaY));
   //console.log(getVolume(mathFunction));
-
-  // Checks if the rules are being followed
-  // if (lowerXBox.value(isNaN))
-  // {
-  //   lowerXBox.value(a);  
-  // }
-  // if (upperXBox.value(isNaN))
-  // {
-  //   upperXBox.value(a);
-  // }
-  // if (aNew > bNew)
-  // {
-  //   lowerLimitBox.value(a); 
-  // }  
+  
 
 }
 
