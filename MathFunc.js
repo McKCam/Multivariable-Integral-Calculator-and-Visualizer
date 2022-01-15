@@ -28,15 +28,9 @@ class MathFunc {
 
   setMathFunc(newInput) {
     let parser = math.parser();
-		//console.log('f(x) = ' + inputMathFunc)
-		const parseFunc = parser.evaluate('f(x, y) = ' + newInput);
-		const f = parser.get('f');
+    const parseFunc = parser.evaluate('f(x, y) = ' + newInput);
+    const f = parser.get('f');
   }
-
-  toString() {
-		let node = math.parse(this.input);
-		return node.toString();
-	}
 
   /**
    * Finding f(x, y) at a specific point.
@@ -47,19 +41,18 @@ class MathFunc {
    */
   evaluateAt(x, y, mathExpr) {
     const parser = math.parser();
-    //console.log(mathExpr);
     parser.evaluate('f(x, y) = ' + mathExpr);
     const f = parser.get('f');
     return f(x, y);
   }
 
   /**
-	 * Computes the approximate area under the given curve.
-	 * @param {number} deltaX The change in x for each box length.
-   * @param {number} deltaY The change in y for each step width.
-	 * @return {number} The approximate area under the curve. 
-	 */
-	getApproxVol(deltaX, deltaY) {
+  * Computes the approximate area under the given curve.
+  * @param {number} deltaX The change in x for each box length.
+  * @param {number} deltaY The change in y for each step width.
+  * @return {number} The approximate area under the curve. 
+  */
+  getApproxVol(deltaX, deltaY) {
     const parser = math.parser();
     
     parser.evaluate('f(x, y) = ' + this.input);
@@ -74,9 +67,9 @@ class MathFunc {
     //console.log(parser.evaluate('f(2, 3)')); // works, valid
     //console.log(f(2, 3)); // Works, valid
     
-		var nx = ceil((this.b - this.a) / deltaX);
+    var nx = ceil((this.b - this.a) / deltaX);
     var ny = ceil((this.d - this.c) / deltaY);
-		var vol = 0;
+    var vol = 0;
 
     for (var i =  a; i < b; i += deltaX) {
       for (var j = c; j < d; j += deltaY) {
@@ -84,7 +77,7 @@ class MathFunc {
       }
     }
 
-		parser.clear();
-		return vol;
-	}
+    parser.clear();
+    return vol;
+    }
 }
