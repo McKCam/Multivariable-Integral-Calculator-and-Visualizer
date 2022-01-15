@@ -225,7 +225,7 @@ function updateIntegral() {
   var aNew = parseFloat(lowerXBox.value(), 10);
   var bNew = parseFloat(upperXBox.value(), 10);
 
-  if (aNew !== NaN && bNew !== NaN && aNew < bNew) {
+  if (!isNaN(aNew) && !isNaN(bNew) && aNew < bNew) {
     a = aNew;
     b = bNew;
   } else {
@@ -235,7 +235,8 @@ function updateIntegral() {
 
   var cNew = parseFloat(lowerYBox.value(), 10);
   var dNew = parseFloat(upperYBox.value(), 10);
-  if (cNew !== NaN && dNew !== NaN && cNew < dNew) {
+    
+  if (!isNaN(cNew) && !isNaN(dNew) && cNew < dNew) {
     c = cNew;
     d = dNew;
   } else {
