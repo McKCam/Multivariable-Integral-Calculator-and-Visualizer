@@ -1,7 +1,6 @@
 let boxArray = [];
 
 // Default globals for integration bounds, and box lengths.
-//var x, y;
 var b = 2, a = 0;
 var d = 3, c = 2;
 var deltaVal = 0.1;
@@ -29,13 +28,9 @@ let displayButton;
 let zoomSlider,
     graphColSlider;
 
-function multivarFunc(x, y)
-{
-  return -(2*x + y); 
-  //return -( (2 * x) + y);
-  //return -(x*x + y*y - 1);
-}
-
+/**
+ * setup() runs once at the start.
+ */
 function setup() {
   createCanvas(600, 600, WEBGL);
   
@@ -82,6 +77,9 @@ function setup() {
   cols();
 }
 
+/**
+ * draw() runs until termination.
+ */
 function draw() {
   background(220);
   
@@ -100,27 +98,16 @@ function draw() {
   
     integral();
   }
-  
-  //axes();
-  
-  //integral();
     
 }
 
 // http://hplgit.github.io/Programming-for-Computations/pub/p4c/p4c-sphinx-Matlab/._pylight004.html#derivation-via-one-dimensional-integrals
+/**
+ * Responsible for the display for the boxes.
+ */
 function integral()
 {
   var volume = 0;
-  
-  // Integral Computation
-  // for (let x = a; x < b; x += deltaX)
-  // {
-  //   for (let y = c; y < d; y += deltaY)
-  //   {
-  //     volume += multivarFunc(x, y) * deltaX * deltaY;  
-  //   }
-  // }
-  //print(-volume);
   
   // Displays the columns
   for (var i = 0; i < boxArray.length; i++)
@@ -130,32 +117,36 @@ function integral()
   
 }
 
+/**
+ * Responsible for the box instantiation of the math function.
+ */
 function cols()
 {
   var volume = 0;
   
   boxArray = [];
 
-  //console.log(inputBox.value());
   // Column instantiation
   for (var x = a; x < b; x += deltaX)
   {
     for (var y = c; y < d; y += deltaY)
     {
       boxArray.push( new MyBox(x, y, -mathFunction.evaluateAt(x, y, inputBox.value()), deltaX, deltaY, 255) ); 
-      //volume += multivarFunc(x, y) * deltaX * deltaY
     }
   }  
   
-  var nx = (b - a)/deltaX;
-  var ny = (d - c)/deltaY;
+  //var nx = (b - a)/deltaX;
+  //var ny = (d - c)/deltaY;
   //print(boxArray); 
-  print("Double integral of f(x, y) = 2x + y from");
-  print("x = " +a+ " to x = " +b+ " and y = " +c+ " to y = " +d);
+  //print("Double integral of f(x, y) = 2x + y from");
+  //print("x = " +a+ " to x = " +b+ " and y = " +c+ " to y = " +d);
   //print("V ≈ " + (-volume));
-  print("Column count: " + (nx*ny));
+  //print("Column count: " + (nx*ny));
 }
 
+/**
+ * Creates the shape of the multivariable function.
+ */
 function shape()
 {
   beginShape();
@@ -167,13 +158,15 @@ function shape()
         colorMode(HSB);
         fill(graphColSlider.value(), 100, 100, 1);
         vertex(i, -mathFunction.evaluateAt(i, j, mathFunction.input) - 0.1, -j + 0.1);
-        
         pop();
       }
   }
   endShape();
 }
 
+/**
+ * Creates the x-y-z axes representation.
+ */
 function axes()
 {
   // Axes
@@ -225,17 +218,9 @@ function axes()
   
 }
 
-function getVolume(mathFunction) {
-  var volume = 0;
-  for (var x = a; x < b; x += deltaX) {
-    for (var y = c; y < d; y += deltaY) {
-      volume += multivarFunc(x, y) * deltaX * deltaY;
-      console.log( -volume);
-    }
-  }
-  return volume;
-}
-
+/**
+ * Responsible for handling updates when the display button is pressed.
+ */
 function updateIntegral() {
   var aNew = parseFloat(lowerXBox.value(), 10);
   var bNew = parseFloat(upperXBox.value(), 10);
@@ -262,16 +247,13 @@ function updateIntegral() {
   cols();
   integral();
   answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
-  //shape();
+
   //console.log(boxArray);
-  //for (int i = 0)
   //outputBox.value(mathFunction.evaluateAt());
 
-  console.log(mathFunction.input);
-  console.log(mathFunction.toString());
-  console.log("Volume: " + mathFunction.getApproxVol(deltaX, deltaY));
-  //console.log(getVolume(mathFunction));
-  
+  //console.log(mathFunction.input);
+  //console.log(mathFunction.toString());
+  //console.log("Volume: " + mathFunction.getApproxVol(deltaX, deltaY));
 
 }
 

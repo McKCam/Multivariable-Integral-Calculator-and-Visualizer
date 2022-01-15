@@ -3,8 +3,8 @@
  */
 class MathFunc {
   /**
-   * 
-   * @param {string} input The math function as a string
+   * Constructor for MathFunc.
+   * @param {string} input The math function as a string.
    * @param {number} a The lower limit for x.
    * @param {number} b The upper limit for x.
    * @param {number} c The lower limit for y.
