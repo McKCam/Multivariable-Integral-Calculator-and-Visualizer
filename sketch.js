@@ -14,7 +14,6 @@ let checkBox;
 var defaultFunc = "2x + y";
 let mathFunction;
 let inputBox;
-let outputBox;
 
 let lowerXBox;
 let upperXBox;
@@ -88,8 +87,9 @@ function draw() {
   scale(zoomSlider.value());
   
   if (checkBox.checked()) {
-    shape();
-
+    if (!isNaN(answerBox.value()) && isFinite(answerBox.value())) {
+      shape();
+    }
     axes();
   
     integral();
@@ -157,7 +157,12 @@ function shape()
         push();
         colorMode(HSB);
         fill(graphColSlider.value(), 100, 100, 1);
-        vertex(i, -mathFunction.evaluateAt(i, j, mathFunction.input) - 0.1, -j + 0.1);
+        var height = -mathFunction.evaluateAt(i, j, mathFunction.input);
+        if (height <= 0) {
+          vertex(i, height - 0.1, -j + 0.1);
+        } else {
+          vertex(i, height + 0.1, -j - 0.1);
+        }
         pop();
       }
   }
@@ -225,7 +230,7 @@ function updateIntegral() {
   var aNew = parseFloat(lowerXBox.value(), 10);
   var bNew = parseFloat(upperXBox.value(), 10);
 
-  if (aNew !== NaN && bNew !== NaN && aNew < bNew) {
+  if (!isNaN(aNew) && !isNaN(bNew) && aNew < bNew) {
     a = aNew;
     b = bNew;
   } else {
@@ -235,7 +240,8 @@ function updateIntegral() {
 
   var cNew = parseFloat(lowerYBox.value(), 10);
   var dNew = parseFloat(upperYBox.value(), 10);
-  if (cNew !== NaN && dNew !== NaN && cNew < dNew) {
+    
+  if (!isNaN(cNew) && !isNaN(dNew) && cNew < dNew) {
     c = cNew;
     d = dNew;
   } else {
@@ -243,10 +249,27 @@ function updateIntegral() {
     upperYBox.value(d);
   }
 
-  mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
-  cols();
-  integral();
-  answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
+  // If update is clicked with an empty input box
+  if (inputBox.value() == "") {
+    // Use the defaultFunc
+    inputBox.value(defaultFunc);
+  }
+
+  if (isNaN(answerBox.value() || isFinite(answerBox.value()))) { 
+    mathFunction = new MathFunc(defaultFunc, a, b, c, d);
+    console.log(answerBox.value());
+    cols();
+    integral();
+    answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
+  } else {
+    mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
+    cols();
+    integral();
+    answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
+  }
+
+
+
 
   //console.log(boxArray);
   //outputBox.value(mathFunction.evaluateAt());
@@ -256,4 +279,3 @@ function updateIntegral() {
   //console.log("Volume: " + mathFunction.getApproxVol(deltaX, deltaY));
 
 }
-
