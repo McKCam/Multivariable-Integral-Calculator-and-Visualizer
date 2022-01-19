@@ -253,23 +253,32 @@ function updateIntegral() {
   if (inputBox.value() == "") {
     // Use the defaultFunc
     inputBox.value(defaultFunc);
-  }
-
-  if (isNaN(answerBox.value() || isFinite(answerBox.value()))) { 
-    mathFunction = new MathFunc(defaultFunc, a, b, c, d);
-    console.log(answerBox.value());
-    cols();
-    integral();
-    answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
   } else {
-    mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
-    cols();
-    integral();
-    answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
+    try {
+      mathFunction = new MathFunc(inputBox.value(), a, b, c, d);
+      answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
+    } catch(error) {
+      if (error instanceof SyntaxError) {
+        console.log("SyntaxError - Check input box");
+        //answerBox.value("ERROR: Check input")
+      } else if (error instanceof TypeError) {
+        console.log("TypeError - Use only x and y as your math variables");
+        //answerBox.value("ERROR: Use only x & y"); 
+      }
+      mathFunction = new MathFunc(defaultFunc, a, b, c, d);
+      inputBox.value(defaultFunc);
+
+      console.log(answerBox.value());
+      cols();
+      integral();
+      answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
+    }
   }
 
-
-
+  if (!isNaN(answerBox.value() && isFinite(answerBox.value()))) {
+    cols();
+    integral();
+  }
 
   //console.log(boxArray);
   //outputBox.value(mathFunction.evaluateAt());

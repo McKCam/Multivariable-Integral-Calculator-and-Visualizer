@@ -26,10 +26,8 @@ class MathFunc {
     return f;
   }
 
-  setMathFunc(newInput) {
-    let parser = math.parser();
-    const parseFunc = parser.evaluate('f(x, y) = ' + newInput);
-    const f = parser.get('f');
+  setInput(newInput) {
+    this.input = newInput;
   }
 
   /**
