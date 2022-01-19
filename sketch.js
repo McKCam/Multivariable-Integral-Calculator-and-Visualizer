@@ -259,7 +259,7 @@ function updateIntegral() {
       answerBox.value(mathFunction.getApproxVol(deltaX, deltaY));
     } catch(error) {
       if (error instanceof SyntaxError) {
-        console.log("SyntaxError - Check input box");
+        console.log("SyntaxError - Invalid input from user");
         //answerBox.value("ERROR: Check input")
       } else if (error instanceof TypeError) {
         console.log("TypeError - Use only x and y as your math variables");
